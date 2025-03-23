@@ -1,87 +1,100 @@
-import React from 'react';
-import Webcam from 'react-webcam';
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+
+import {CardTitle } from '@/components/ui/card';
 import * as tmImage from '@teachablemachine/image';
 import { useRef,useCallback } from 'react';
+import camd from '../src/assets/cam-d.png'
+import camw from '../src/assets/cam-w.png'
+import loadd from '../src/assets/load-d.png'
+import loadw from '../src/assets/load-w.png'
+import textw from '../src/assets/text-w.png'
+import textd from '../src/assets/text-d.png'
+
+
+
+
 function Cam() {
-  //   const videoConstraints = {
-  // width: 1280,
-  // height: 720,
-  // facingMode: "user"
-  // }
 
-  // let model,maxPredictions;
-  // async function init(){
-  //   model = await tmImage.load(modelURL,metadataURL);
-    
-  //   maxPredictions = model.getTotalClasses();
+  const [cur,setCur] = useState(1)
 
-  // }
-
-
-  // const webcamRef = useRef(null);
-  // let imageSrc;
-  // const capture = React.useCallback(
-  //   () => {
-  //     imageSrc = webcamRef.current.getScreenshot();
-  //     webcam = new tmImage.w
-  //     console.log(imageSrc)
-  //   },
-  //   [webcamRef]
-  // );
+  const [dish, setDish] = useState('')
+  const webcamRef = useRef(null)
+  const modelRef = useRef(null)
+  const maxPredictionsRef = useRef(null);
   const URL = "../my_model/";
-  let webcam,model,maxPredictions,labelContainer;
     async function init() {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+
+
+        modelRef.current = await tmImage.load(modelURL, metadataURL);
+        maxPredictionsRef.current = modelRef.current.getTotalClasses();
         
         const flip = true; 
-        webcam = new tmImage.Webcam(300, 200, flip); // width, height, flip
+        webcamRef.current = new tmImage.Webcam(400, 400, flip); // width, height, flip
         
-        await webcam.setup(); // request access to the webcam
-        await webcam.play();
+        await webcamRef.current.setup(); // request access to the webcam
+        await webcamRef.current.play();
         window.requestAnimationFrame(loop);
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-        labelContainer = document.getElementById("label-container");
+        document.getElementById("webcam-container").appendChild(webcamRef.current.canvas);
+        // labelContainer = document.getElementById("label-container");
 
     }
 
 
     async function loop() {
-        webcam.update(); // update the webcam frame
+        webcamRef.current.update(); // update the webcam frame
         // await predict();
         window.requestAnimationFrame(loop);
     }
   
 
-  async function check(params) {
-    const prediction = await model.predict(imageSrc);
-    var maxi = '0.0';
-        var maxDish = 'Model not trained for this dish';
-        for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+  async function check2(params) {
+    if (!modelRef.current || !webcamRef.current) {
+      console.error("Model or Webcam not initialized.");
+      return;
+    }
+    console.log('button clocked')
+    const prediction = await modelRef.current.predict(webcamRef.current.canvas);
+        let maxi = 0;
+        let maxDish = 'Model not yet trained for the dish!';
+        for (let i = 0; i < maxPredictionsRef.current; i++) {
+            console.log(prediction[i].className, prediction[i].probability.toFixed(2));
                 if(prediction[i].probability.toFixed(2)>maxi){
                     maxi = prediction[i].probability.toFixed(2)
-                    if(maxi>0.7){
+                    if(maxi>0.5){
                         maxDish = prediction[i].className;
 
                     }
                 }
             }
-        // labelContainer.innerHTML = "It is: "+ maxDish;
-        Dish = maxDish;
+        setDish(`${maxDish}!`)
 
   }
   // init();
   return (
     <>
-    <div id='webcam-container' className=''>
-      
-    
+
+
+    <div className='bg-zinc-950 pt-6 pb-2 rounded-3xl outline-1 outline-zinc-600' >
+        <CardTitle className={'text-zinc-50 font-bold'} >Webcam</CardTitle>
+        <div className="flex justify-center gap-4 mt-2 mb-2">
+          <div className={cur==1?"overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full"}><img src={cur==1?camd:camw} className='' alt="" /></div>
+          <div className={cur==2?"overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":" overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full"}><img src={cur==2?loadd:loadw} className='' alt="" /></div>
+          <div className={cur==3?"overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full"}><img src={cur==3?textd:textw} className='' alt="" /></div>
+          
+        </div>
+        <div id='webcam-container' className='bg-zinc-950 overflow-hidden rounded-2xl h-90 w-90'></div>
+      <div ><Button onClick={init} variant={'outline'} >Start cam</Button></div>
+
     </div>
-    <div><button onClick={init} >Check</button></div>
+
+    <div id="label-container " className='text-white p-2 m-4 rounded-md outline-2 outline-zinc-600' >Your dish is :{dish}</div>
+    <div className="flex justify-center gap-2">
+      <div><Button onClick={check2} variant={'outline'} >Predict</Button></div>
+    </div>
+    
     </>
   
   )

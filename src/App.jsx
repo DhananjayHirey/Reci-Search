@@ -7,6 +7,7 @@ import Cam from '../components/Cam'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [searchDish, setSearchDish] = useState('');
 
   return (
     <>

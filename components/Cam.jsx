@@ -41,6 +41,7 @@ function Cam(props) {
         // labelContainer = document.getElementById("label-container");
 
     }
+
     useEffect(
       ()=>{
         if(cur=='1'){
@@ -66,23 +67,19 @@ function Cam(props) {
       ,[cur])
 
     async function loop() {
-        webcamRef.current.update(); // update the webcam frame
-        // await predict();
+        webcamRef.current.update();
         window.requestAnimationFrame(loop);
       }
       
       async function handleCur(a){
-        // if(a!='1'&& webcamRef.current && webcamRef.current.stop){
-        //   await webcamRef.current.stop();
-          
-        // }
+
         setCur(a);
 
     }
 
-  const check2 = useCallback(async (e)=> {
+  const check2 = useCallback(async ()=> {
 
-    if(cur=='1'){
+    if(cur==='1'){
 
       if (!modelRef.current || !webcamRef.current) {
         console.error("Model or Webcam not initialized.");
@@ -105,23 +102,23 @@ function Cam(props) {
       setDish(`${maxDish}!`)
       props.setSearch(maxDish);
     }
-    else if(cur=='3'){
-      console.log(document.getElementById('text-search').innerText);
-      // props.setSearch(document.getElementById('text-search').innerHTML)
+    else if(cur==='3'){
+      // console.log(document.getElementById('text-search').value);
+      props.setSearch(document.getElementById('text-search').value)
     }
       
-  },[]);
+  },[cur]);
   // init();
   return (
     <>
 
     <div className='flex flex-col justify-center items-center' >
-    <div className='bg-zinc-950 pt-6 pb-2 rounded-3xl outline-2 outline-zinc-600' >
+    <div className='bg-zinc-950 pt-6 pb-2 rounded-3xl outline-2 outline-zinc-600 z-10' >
         <CardTitle className={'text-zinc-50 font-bold'} >{title}</CardTitle>
         <div className="flex justify-center gap-4 mt-2 mb-2">
-          <div onClick={()=>handleCur('1')} className={cur==1?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==1?camd:camw} className='' alt="" /></div>
-          <div onClick={()=>handleCur('2')} className={cur==2?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==2?loadd:loadw} className='' alt="" /></div>
-          <div onClick={()=>handleCur('3')} className={cur==3?" cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==3?textd:textw} className='' alt="" /></div>
+          <div onClick={()=>handleCur('1')} className={cur=='1'?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==1?camd:camw} className='' alt="" /></div>
+          <div onClick={()=>handleCur('2')} className={cur=='2'?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==2?loadd:loadw} className='' alt="" /></div>
+          <div onClick={()=>handleCur('3')} className={cur=='3'?" cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==3?textd:textw} className='' alt="" /></div>
           
         </div>
         <div className='flex flex-col items-center justify-center h-90 w-90 overflow-hidden' >
@@ -136,7 +133,7 @@ function Cam(props) {
 
     </div>
 
-    <div id="label-container " className='text-white p-2 m-4 rounded-md outline-2 outline-zinc-600' >Your dish is :{dish}</div>
+    <div id="label-container " className='animate__slideInDown text-white p-2 m-4 rounded-md outline-2 outline-zinc-600' >Your dish is :{dish}</div>
     <div className="flex justify-center gap-2">
       <div><Button onClick={check2} variant={'outline'} className={'cursor-pointer'} >Search</Button></div>
     </div>

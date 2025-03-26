@@ -10,7 +10,7 @@ import loadd from '../src/assets/load-d.png'
 import loadw from '../src/assets/load-w.png'
 import textw from '../src/assets/text-w.png'
 import textd from '../src/assets/text-d.png'
-
+import {motion} from 'framer-motion'
 
 
 
@@ -103,7 +103,7 @@ function Cam(props) {
       props.setSearch(maxDish);
     }
     else if(cur==='3'){
-      // console.log(document.getElementById('text-search').value);
+      setDish(document.getElementById('text-search').value)
       props.setSearch(document.getElementById('text-search').value)
     }
       
@@ -111,11 +111,11 @@ function Cam(props) {
   // init();
   return (
     <>
-
+    <motion.div initial={{opacity:0, x:'20%'}} animate={{opacity:1, x:'0%'}} transition={{duration:1}} >
     <div className='flex flex-col justify-center items-center' >
     <div className='bg-zinc-950 pt-6 pb-2 rounded-3xl outline-2 outline-zinc-600 z-10' >
         <CardTitle className={'text-zinc-50 font-bold'} >{title}</CardTitle>
-        <div className="flex justify-center gap-4 mt-2 mb-2">
+        <div className="flex justify-center gap-4 mt-4 mb-2">
           <div onClick={()=>handleCur('1')} className={cur=='1'?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==1?camd:camw} className='' alt="" /></div>
           <div onClick={()=>handleCur('2')} className={cur=='2'?"cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==2?loadd:loadw} className='' alt="" /></div>
           <div onClick={()=>handleCur('3')} className={cur=='3'?" cursor-pointer overflow-hidden p-0.5 bg-white w-8 h-8 rounded-full":"cursor-pointer overflow-hidden p-0.5 bg-zinc-900 w-8 h-8 rounded-full outline-2 outline-zinc-100 "}><img src={cur==3?textd:textw} className='' alt="" /></div>
@@ -132,12 +132,13 @@ function Cam(props) {
         </div>
 
     </div>
-
-    <div id="label-container " className='animate__slideInDown text-white p-2 m-4 rounded-md outline-2 outline-zinc-600' >Your dish is :{dish}</div>
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-2 mt-2 ">
       <div><Button onClick={check2} variant={'outline'} className={'cursor-pointer'} >Search</Button></div>
     </div>
+    <motion.div  initial={{opacity:0, y:'-80%'}} animate={{opacity:1, y:'0%'}} transition={{duration:1}}>
+    <div id="label-container " className={`${dish.length?'':'hidden'} text-white p-2 m-4 rounded-md outline-2 outline-zinc-600`} >Searching for {dish}...</div></motion.div>
     </div>
+    </motion.div>
     </>
   
   )

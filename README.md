@@ -25,6 +25,11 @@ A powerful recipe discovery app that identifies dishes using a custom-built Tens
 |------------|---------------------|-----------------|
 | ![Home](./img/data.png) | ![Dish Identification](./img/dish.png) | ![Text-Based Search](./img/text.png) |
 
+## Project Implementation
+
+👉 [Check out my LinkedIn post](https://www.linkedin.com/posts/dhananjayhirey_ai-react-tensorflowjs-activity-7315016407451148288-Zc02?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAADZarnABoBKMCsxJaW_8jac65s6zaa18DD8) for more details and behind-the-scenes insights!
+
+
 ## 🛠️ Installation
 
 1. **Clone the Repository**

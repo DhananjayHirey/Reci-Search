@@ -21,16 +21,16 @@ A powerful recipe discovery app that identifies dishes using a custom-built Tens
 
 ## 📸 Screenshots
 
-| Home Page | Dish Identification | Recipe Display |
+| Data | Dish Identification | Text-Based Search |
 |------------|---------------------|-----------------|
-| ![Home](./assets/home.png) | ![Identify](./assets/identify.png) | ![Recipe](./assets/recipe.png) |
+| ![Home](./img/data.png) | ![Dish Identification](./img/dish.png) | ![Text-Based Search](./img/text.png) |
 
 ## 🛠️ Installation
 
 1. **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/recipe-finder.git
-cd recipe-finder
+git clone https://github.com/DhananjayHirey/Reci-Search.git
+cd Reci-Search
 ```
 
 2. **Install Dependencies**
@@ -62,6 +62,6 @@ This project is licensed under the **MIT License**.
 Contributions are welcome! Feel free to submit a pull request or open an issue for discussion.
 
 ## 📫 Contact
-For queries or collaboration, reach out via [your-email@example.com](mailto:your-email@example.com).
+For queries or collaboration, reach out via [dhananjayhirey2905@gmail.com](mailto:dhananjayhirey2905@gmail.com).
 
 
